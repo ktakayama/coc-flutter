@@ -88,7 +88,7 @@ class DevServer extends Dispose {
 
     const config = workspace.getConfiguration('flutter');
     if (config.get<boolean>('autoOpenDevLog', false)) {
-      this.openDevLog(true);
+      this.openDevLog(config.get<boolean>('autoFocusDevLog', true));
     }
 
     if (this.onHandler.length) {
@@ -166,7 +166,9 @@ class DevServer extends Dispose {
     if (this.outputChannel) {
       const winId = await workspace.nvim.call('bufwinid', 'output:///' + devLogName);
       if (winId >= 0) {
-        workspace.nvim.call('win_gotoid', [winId]);
+        if (preserveFocus) {
+          workspace.nvim.call('win_gotoid', [winId]);
+        }
       } else {
         if (!cmd) {
           this.outputChannel.show(preserveFocus);

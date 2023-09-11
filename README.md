@@ -144,6 +144,9 @@ If you want to give arguments to the flutter run command you can simply append t
 - `flutter.autoHideDevLog` default: `false`
   > Automatically hide the dev log when the app stops running
 
+- `flutter.autoFocusDevLog` default: `true`
+  > Automatically focus dev log window after open dev log
+
 - `flutter.selectedDeviceId` default: `null`
   > The id of the device that was last selected using the FlutterDevices list (only if the device is selected using one of the `config` actions).
 

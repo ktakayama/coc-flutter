@@ -148,6 +148,11 @@
           "default": false,
           "description": "Automatically hide the dev log when the app stops running"
         },
+        "flutter.autoFocusDevLog": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically focus dev log window after open dev log"
+        },
         "flutter.runDevToolsAtStartup": {
           "type": "boolean",
           "default": false,
