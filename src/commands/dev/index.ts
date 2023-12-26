@@ -225,7 +225,7 @@ export class Dev extends Dispose {
   private onStdout = (lines: string[]) => {
     lines.forEach((line) => {
       const m = line.match(
-        /^\s*An Observatory debugger and profiler on .* is available at:\s*(https?:\/\/127\.0\.0\.1:\d+\/.+\/)$/,
+        /^\s*(?:A Dart VM Service|An Observatory debugger and profiler) on .* is available at:\s*(https?:\/\/127\.0\.0\.1:\d+\/.+\/)$/,
       );
       if (m) {
         this.profilerUrl = m[1];
