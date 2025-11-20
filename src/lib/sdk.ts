@@ -164,13 +164,24 @@ class FlutterSDK {
       const workspaceFolder = workspace.workspaceFolder
         ? Uri.parse(workspace.workspaceFolder.uri).fsPath
         : workspace.cwd;
-      const fvmLocation = join(workspaceFolder, '.fvm', 'flutter_sdk');
-      if (exists(fvmLocation)) {
-        log('Found local fvm sdk');
-        this._sdkHome = fvmLocation;
-        await this.initFlutterCommandsFromSdkHome();
+      const fvmrcLocation = join(workspaceFolder, '.fvmrc');
+      if (exists(fvmrcLocation)) {
+        const { stdout: flutterPath } = await execCommand(`fvm exec which flutter`);
+        console.log(flutterPath);
+        log('fvm which flutter => ${flutterPath}');
+        this._flutterCommand = flutterPath.trim();
+        const { stdout: dirname } = await execCommand(`dirname $(dirname $(fvm exec which flutter))`);
+        this._sdkHome = dirname.trim();
+        this._dartHome = join(this._sdkHome, 'bin', 'cache', 'dart-sdk');
       } else {
-        log('No local fvm sdk');
+        const fvmLocation = join(workspaceFolder, '.fvm', 'flutter_sdk');
+        if (exists(fvmLocation)) {
+          log('Found local fvm sdk');
+          this._sdkHome = fvmLocation;
+          await this.initFlutterCommandsFromSdkHome();
+        } else {
+          log('No local fvm sdk');
+        }
       }
     } catch (error) {
       log(`Error configuring local fvm sdk: ${error.message}}`);
